@@ -1,4 +1,4 @@
-# AUV
+# Computer VIsion using opencv
 ---
 
 Credits:
