@@ -12,12 +12,11 @@ model_files="$1"
 
 if echo $model_files | egrep -v '^/' 
 then
-    echo gay
     model_files="`pwd`/$model_files"
 fi
 
 new_world="$2"
-
+echo $new_world
 # 5. Create mew catkin package
 mkdir -p $catkin_src
 cd $catkin_src
@@ -38,7 +37,7 @@ cp -r $model_files/*.dae meshes/
 cp -r $model_files/*.png materials/textures/
 
 # 8.
-cat > test_model.sdf << EOF
+cat > model.sdf << EOF
 <?xml version="1.0" ?>  
 <sdf version="1.5">  
 <model name="test_model">  
@@ -66,13 +65,13 @@ cat > test_model.sdf << EOF
 </sdf> 
 EOF
 
-cat > test_model.config << EOF
+cat > model.config << EOF
 
 <?xml version="1.0"?>  
 <model>  
 <name>Test Model</name>  
 <version>1.0</version>  
-<sdf version="1.5">test_model.sdf</sdf>  
+<sdf version="1.5">model.sdf</sdf>  
 
 <author>  
 <name>Your Name</name>  
@@ -88,7 +87,6 @@ A Gazebo model
 EOF
 
 # 9.
-
 
 # 10 return to base directory
 cd $catkin_src
@@ -124,12 +122,8 @@ cat > package.xml << EOF
 </package> 
 EOF
 
-echo "David gay"
-
 # 11.
 cd ~/catkin_ws
-
-
 catkin_make
 
 #12.
@@ -219,7 +213,7 @@ cat > ${new_world}.launch  << EOF
     <arg name="gui" default="true"/> 
     <arg name="paused" default="false"/> 
     <include file="\$(find gazebo_ros)/launch/empty_world.launch"> 
-        <arg name="world_name" value="worlds/${new_world}.world"/> 
+        <arg name="world_name" value="/home/${USER}/catkin_ws/src/${new_world}/worlds/${new_world}.world"/> 
         <arg name="paused" value="\$(arg paused)"/> 
         <arg name="use_sim_time" value="true"/> 
         <arg name="gui" value="\$(arg gui)"/> 
